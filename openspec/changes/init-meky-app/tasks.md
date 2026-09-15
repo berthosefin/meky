@@ -49,14 +49,14 @@
 
 ## 7. UI & Polish
 
-- [ ] 7.1 Créer le fichier de thème (couleurs, espacements, radius) et appliquer sur les composants
-- [ ] 7.2 Prendre en charge le thème clair/sombre selon la préférence système
-- [ ] 7.3 Ajouter les icônes (ajout, édition, suppression) pour les actions
-- [ ] 7.4 Vérifier le comportement au clavier ouvert (inputs visibles, pas de chevauchement)
+- [x] 7.1 Créer le fichier de thème (couleurs, espacements, radius) et appliquer sur les composants
+- [x] 7.2 Prendre en charge le thème clair/sombre selon la préférence système
+- [x] 7.3 Ajouter les icônes (ajout, édition, suppression) pour les actions
+- [x] 7.4 Vérifier le comportement au clavier ouvert (inputs visibles, pas de chevauchement)
 
 ## 8. Build et distribution
 
-- [ ] 8.1 Configurer EAS Build (`eas.json` avec profile `preview`)
+- [x] 8.1 Configurer EAS Build (`eas.json` avec profile `preview`)
 - [ ] 8.2 Générer l'APK (`eas build --platform android --profile preview`)
 - [ ] 8.3 Publier l'APK en GitHub Release sur le repo privé
 - [ ] 8.4 Vérification finale sur appareil physique : créer, éditer, supprimer, exécuter un code USSD
