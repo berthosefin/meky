@@ -16,11 +16,11 @@
 
 ## 3. Modèle de données et couche de stockage
 
-- [ ] 3.1 Créer les types TypeScript `UssdCode` (id, name, code, variables, createdAt, updatedAt) et `Variable` (name, type, placeholder)
-- [ ] 3.2 Implémenter le parser de formule : extraire les variables uniques `{NOM}` d'une formule (regex, dédoublonnage, ordre d'apparition)
-- [ ] 3.3 Définir le mapping type → clavier (phone/amount/text) et placeholder par défaut
-- [ ] 3.4 Implémenter la couche storage MMKV : `listCodes`, `getCode`, `saveCode`, `deleteCode`
-- [ ] 3.5 Écrire les tests unitaires du parser (variables détectées, variables en double, formule sans variable, substitution)
+- [x] 3.1 Créer les types TypeScript `UssdCode` (id, name, code, variables, createdAt, updatedAt) et `Variable` (name, type, placeholder)
+- [x] 3.2 Implémenter le parser de formule : extraire les variables uniques `{NOM}` d'une formule (regex, dédoublonnage, ordre d'apparition)
+- [x] 3.3 Définir le mapping type → clavier (phone/amount/text) et placeholder par défaut
+- [x] 3.4 Implémenter la couche storage MMKV : `listCodes`, `getCode`, `saveCode`, `deleteCode`
+- [x] 3.5 Écrire les tests unitaires du parser (variables détectées, variables en double, formule sans variable, substitution)
 
 ## 4. Page Home (liste des codes)
 
