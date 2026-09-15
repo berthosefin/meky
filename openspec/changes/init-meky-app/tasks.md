@@ -24,28 +24,28 @@
 
 ## 4. Page Home (liste des codes)
 
-- [ ] 4.1 Créer la route `app/index.tsx` avec une `FlatList` des codes
-- [ ] 4.2 Créer le composant `Card` (nom + aperçu formule) au style shadcn
-- [ ] 4.3 Ajouter la navigation : tap sur un code → page Exécution, bouton `+` → page Ajout
-- [ ] 4.4 Ajouter l'accès à la modification et la suppression (tap long ou bouton dédié) avec dialog de confirmation
-- [ ] 4.5 Implémenter l'état vide (aucun code enregistré)
+- [x] 4.1 Créer la route `app/index.tsx` avec une `FlatList` des codes
+- [x] 4.2 Créer le composant `Card` (nom + aperçu formule) au style shadcn
+- [x] 4.3 Ajouter la navigation : tap sur un code → page Exécution, bouton `+` → page Ajout
+- [x] 4.4 Ajouter l'accès à la modification et la suppression (tap long ou bouton dédié) avec dialog de confirmation
+- [x] 4.5 Implémenter l'état vide (aucun code enregistré)
 
 ## 5. Page Ajout / Édition
 
-- [ ] 5.1 Créer la route `app/code/new.tsx` : nom + formule
-- [ ] 5.2 Afficher l'aperçu dynamique des variables détectées dans la formule (avec type et placeholder)
-- [ ] 5.3 Valider la sauvegarde (nom requis, formule requise) avec messages d'erreur
-- [ ] 5.4 Persister le code via la couche storage et retourner à la Home
-- [ ] 5.5 Réutiliser la même page pour la modification d'un code existant (`app/code/[id]` en mode edit) avec pré-remplissage
+- [x] 5.1 Créer la route `app/code/new.tsx` : nom + formule
+- [x] 5.2 Afficher l'aperçu dynamique des variables détectées dans la formule (avec type et placeholder)
+- [x] 5.3 Valider la sauvegarde (nom requis, formule requise) avec messages d'erreur
+- [x] 5.4 Persister le code via la couche storage et retourner à la Home
+- [x] 5.5 Réutiliser la même page pour la modification d'un code existant (`app/code/[id]` en mode edit) avec pré-remplissage
 
 ## 6. Page Exécution
 
-- [ ] 6.1 Créer la route `app/code/[id]` : charger le code, afficher un champ par variable avec clavier adapté
-- [ ] 6.2 Afficher l'aperçu en direct de la formule substituée (variables vides conservées en `{NOM}`)
-- [ ] 6.3 Bloquer l'exécution tant qu'une variable obligatoire est vide, signaler la variable manquante
-- [ ] 6.4 Implémenter l'encodeur USSD (`#` → `%23`, `*` → `%2A`) en fonction pure et le tester
-- [ ] 6.5 Implémenter le lancement : `Linking.canOpenURL` puis `openURL('tel:' + encoded)`, gestion de l'erreur "aucun dialer"
-- [ ] 6.6 Ajouter l'accès à l'édition et à la suppression depuis la page Exécution
+- [x] 6.1 Créer la route `app/code/[id]` : charger le code, afficher un champ par variable avec clavier adapté
+- [x] 6.2 Afficher l'aperçu en direct de la formule substituée (variables vides conservées en `{NOM}`)
+- [x] 6.3 Bloquer l'exécution tant qu'une variable obligatoire est vide, signaler la variable manquante
+- [x] 6.4 Implémenter l'encodeur USSD (`#` → `%23`, `*` → `%2A`) en fonction pure et le tester
+- [x] 6.5 Implémenter le lancement : `Linking.canOpenURL` puis `openURL('tel:' + encoded)`, gestion de l'erreur "aucun dialer"
+- [x] 6.6 Ajouter l'accès à l'édition et à la suppression depuis la page Exécution
 
 ## 7. UI & Polish
 
