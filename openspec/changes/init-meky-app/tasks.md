@@ -1,8 +1,8 @@
 ## 1. Spike USSD
 
-- [ ] 1.1 Test manuel sur l'appareil cible : saisir `*#100#` (ou un code de solde opérateur) dans le dialer et vérifier si la session USSD se lance automatiquement ou exige d'appuyer sur "Appeler"
-- [ ] 1.2 Tester un URI `tel:` encodé (ex: `tel:%23%2A100%2A%23`) dans un lanceur d'intent et noter le comportement du dialer du testeur
-- [ ] 1.3 Noter les résultats (modèle + version Android) dans un fichier `docs/ussd-spike.md` pour documenter le comportement constaté
+- [x] 1.1 Test manuel sur l'appareil cible : saisir `*#100#` (ou un code de solde opérateur) dans le dialer et vérifier si la session USSD se lance automatiquement ou exige d'appuyer sur "Appeler"
+- [x] 1.2 Tester un URI `tel:` encodé (ex: `tel:%23%2A100%2A%23`) dans un lanceur d'intent et noter le comportement du dialer du testeur
+- [x] 1.3 Noter les résultats (modèle + version Android) dans un fichier `docs/ussd-spike.md` pour documenter le comportement constaté
 
 ## 2. Fondations du projet
 
