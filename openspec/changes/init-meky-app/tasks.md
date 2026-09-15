@@ -6,12 +6,12 @@
 
 ## 2. Fondations du projet
 
-- [ ] 2.1 Créer le repo GitHub privé `meky` et le connecter au remote local
-- [ ] 2.2 Initialiser le projet Expo TypeScript (`npx create-expo-app` avec template typescript)
-- [ ] 2.3 Ajouter et configurer Expo Router (structure `app/`, `_layout.tsx`)
-- [ ] 2.4 Ajouter et configurer NativeWind (tailwind.config + babel)
-- [ ] 2.5 Ajouter `react-native-mmkv`
-- [ ] 2.6 Configurer commitlint + husky (conventional commits en anglais)
+- [x] 2.1 Créer le repo GitHub privé `meky` et le connecter au remote local
+- [x] 2.2 Initialiser le projet Expo TypeScript (`npx create-expo-app` avec template typescript)
+- [x] 2.3 Ajouter et configurer Expo Router (structure `app/`, `_layout.tsx`)
+- [x] 2.4 Ajouter et configurer NativeWind (tailwind.config + babel)
+- [x] 2.5 Ajouter `react-native-mmkv`
+- [x] 2.6 Configurer commitlint + husky (conventional commits en anglais)
 - [ ] 2.7 Commit initial : `chore: init expo project with typescript`
 
 ## 3. Modèle de données et couche de stockage
