@@ -19,6 +19,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "42ef7b19-3ed8-4795-8285-14888e031989"
+      }
+    },
+    "owner": "berthosefin"
   }
 }
