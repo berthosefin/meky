@@ -1,8 +1,8 @@
-import { MMKV } from 'react-native-mmkv';
+import { createMMKV } from 'react-native-mmkv';
 
 import type { UssdCode } from '../types';
 
-const storage = new MMKV({ id: 'meky' });
+const storage = createMMKV({ id: 'meky' });
 const CODES_KEY = 'ussd.codes';
 
 function readAll(): UssdCode[] {
