@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { keyboardFor } from '@/lib/keyboard';
 import { substitute } from '@/lib/parseCode';
+import { useIconColor } from '@/lib/theme';
 import { launchUssd } from '@/lib/ussd';
 import { deleteCode, getCode } from '@/storage/storage';
 import type { UssdCode } from '@/types';
@@ -27,16 +28,27 @@ export default function CodeScreen() {
   }
 
   if (edit === '1') {
-    return <CodeForm initial={code} />;
+    return (
+      <>
+        <Stack.Screen options={{ title: 'Modifier le code' }} />
+        <CodeForm initial={code} />
+      </>
+      );
   }
 
-  return <ExecuteView code={code} />;
+  return (
+    <>
+      <Stack.Screen options={{ title: 'Exécuter le code' }} />
+      <ExecuteView code={code} />
+    </>
+  );
 }
 
 function ExecuteView({ code }: { code: UssdCode }) {
   const router = useRouter();
   const [values, setValues] = useState<Record<string, string>>({});
   const [missing, setMissing] = useState<string[]>([]);
+  const iconColor = useIconColor();
 
   const preview = substitute(code.code, values);
 
@@ -71,10 +83,10 @@ function ExecuteView({ code }: { code: UssdCode }) {
         <Text className="text-xl font-semibold text-foreground">{code.name}</Text>
         <View className="flex-row gap-4">
           <Pressable onPress={() => router.push(`/code/${code.id}?edit=1`)} hitSlop={8}>
-            <Ionicons name="create-outline" size={22} color="rgb(var(--muted-foreground))" />
+            <Ionicons name="create-outline" size={22} color={iconColor} />
           </Pressable>
           <Pressable onPress={confirmDelete} hitSlop={8}>
-            <Ionicons name="trash-outline" size={22} color="rgb(var(--destructive))" />
+            <Ionicons name="trash-outline" size={22} color="#ef4444" />
           </Pressable>
         </View>
       </View>

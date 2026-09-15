@@ -5,12 +5,14 @@ import { Alert, FlatList, Pressable, Text, View } from 'react-native';
 
 import { Card, CardTitle, CodePreview } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
+import { useIconColor } from '@/lib/theme';
 import { deleteCode, listCodes } from '@/storage/storage';
 import type { UssdCode } from '@/types';
 
 export default function HomeScreen() {
   const router = useRouter();
   const [codes, setCodes] = useState<UssdCode[]>([]);
+  const iconColor = useIconColor();
 
   useFocusEffect(
     useCallback(() => {
@@ -60,10 +62,10 @@ export default function HomeScreen() {
               <CardTitle>{item.name}</CardTitle>
               <View className="flex-row gap-4">
                 <Pressable onPress={() => router.push(`/code/${item.id}?edit=1`)} hitSlop={8}>
-                  <Ionicons name="create-outline" size={20} color="rgb(var(--muted-foreground))" />
+                  <Ionicons name="create-outline" size={20} color={iconColor} />
                 </Pressable>
                 <Pressable onPress={() => confirmDelete(item)} hitSlop={8}>
-                  <Ionicons name="trash-outline" size={20} color="rgb(var(--muted-foreground))" />
+                  <Ionicons name="trash-outline" size={20} color={iconColor} />
                 </Pressable>
               </View>
             </View>
