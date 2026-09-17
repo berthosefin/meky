@@ -12,7 +12,7 @@
 - [x] 2.4 Ajouter et configurer NativeWind (tailwind.config + babel)
 - [x] 2.5 Ajouter `react-native-mmkv`
 - [x] 2.6 Configurer commitlint + husky (conventional commits en anglais)
-- [ ] 2.7 Commit initial : `chore: init expo project with typescript`
+- [x] 2.7 Commit initial : `chore: init expo project with typescript`
 
 ## 3. Modèle de données et couche de stockage
 
@@ -57,6 +57,6 @@
 ## 8. Build et distribution
 
 - [x] 8.1 Configurer EAS Build (`eas.json` avec profile `preview`)
-- [ ] 8.2 Générer l'APK (`eas build --platform android --profile preview`)
-- [ ] 8.3 Publier l'APK en GitHub Release sur le repo privé
+- [x] 8.2 Générer l'APK (`eas build --platform android --profile preview`)
+- [x] 8.3 Publier l'APK en GitHub Release sur le repo privé
 - [ ] 8.4 Vérification finale sur appareil physique : créer, éditer, supprimer, exécuter un code USSD
