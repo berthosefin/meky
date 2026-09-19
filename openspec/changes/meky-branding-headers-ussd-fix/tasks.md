@@ -25,7 +25,7 @@
 
 - [x] 4.1 `npm run typecheck` sans erreur
 - [x] 4.2 `npm test` (tous les tests verts, dont les nouveaux)
-- [ ] 4.3 Commit : `feat: apply meky branding, unify header and fix ussd launch`
-- [ ] 4.4 Build EAS preview (`eas build --platform android --profile preview`)
+- [x] 4.3 Commit : `feat: apply meky branding, unify header and fix ussd launch`
+- [x] 4.4 Build EAS preview (`eas build --platform android --profile preview`)
 - [ ] 4.5 Installer sur appareil et vérifier : nom « Meky », icône, splash dark, header dark/clair, exécution USSD avec valeurs substituées
-- [ ] 4.6 Publier la release GitHub avec le nouvel APK (ou mise à jour de la release v1.0.0)
+- [x] 4.6 Publier la release GitHub avec le nouvel APK (ou mise à jour de la release v1.0.0)
