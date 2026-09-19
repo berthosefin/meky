@@ -1,12 +1,17 @@
 {
   "expo": {
-    "name": "meky",
+    "name": "Meky",
     "slug": "meky",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "scheme": "meky",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0C1113"
+    },
     "android": {
       "package": "com.berthosefin.meky",
       "adaptiveIcon": {
@@ -25,6 +30,9 @@
         "projectId": "42ef7b19-3ed8-4795-8285-14888e031989"
       }
     },
-    "owner": "berthosefin"
+    "owner": "berthosefin",
+    "plugins": [
+      "expo-splash-screen"
+    ]
   }
 }

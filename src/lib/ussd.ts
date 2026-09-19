@@ -17,9 +17,21 @@ export function encodeUssdUri(code: string): string {
 
 export async function launchUssd(code: string): Promise<void> {
   const url = encodeUssdUri(code);
-  const supported = await Linking.canOpenURL(url);
-  if (!supported) {
-    throw new Error('Aucun dialer disponible pour lancer ce code USSD.');
+
+  let supported = true;
+  try {
+    supported = await Linking.canOpenURL(url);
+  } catch {
+    // canOpenURL may throw on some devices; fall through to a direct attempt.
   }
-  await Linking.openURL(url);
+
+  if (!supported) {
+    throw new Error("Aucun dialer disponible. Vérifiez qu'une application Téléphone est installée.");
+  }
+
+  try {
+    await Linking.openURL(url);
+  } catch {
+    throw new Error("Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée.");
+  }
 }

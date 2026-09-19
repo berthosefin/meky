@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { Stack, useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, FlatList, Pressable, Text, View } from 'react-native';
+import { Alert, FlatList, Image, Pressable, Text, View } from 'react-native';
 
 import { Card, CardTitle, CodePreview } from '@/components/ui/card';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -36,45 +36,56 @@ export default function HomeScreen() {
 
   const openCode = (id: string) => router.push(`/code/${id}`);
 
-  if (codes.length === 0) {
-    return (
-      <View className="flex-1 bg-background">
-        <EmptyState
-          title="Aucun code enregistré"
-          description="Ajoutez votre premier code USSD pour le retrouver facilement."
-          actionLabel="Ajouter un code"
-          onAction={() => router.push('/code/new')}
-        />
-        <Fab onPress={() => router.push('/code/new')} />
-      </View>
-    );
-  }
-
   return (
-    <View className="flex-1 bg-background">
-      <FlatList
-        data={codes}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ gap: 8, padding: 16, paddingBottom: 96 }}
-        renderItem={({ item }) => (
-          <Card onPress={() => openCode(item.id)} onLongPress={() => confirmDelete(item)}>
-            <View className="flex-row items-center justify-between">
-              <CardTitle>{item.name}</CardTitle>
-              <View className="flex-row gap-4">
-                <Pressable onPress={() => router.push(`/code/${item.id}?edit=1`)} hitSlop={8}>
-                  <Ionicons name="create-outline" size={20} color={iconColor} />
-                </Pressable>
-                <Pressable onPress={() => confirmDelete(item)} hitSlop={8}>
-                  <Ionicons name="trash-outline" size={20} color={iconColor} />
-                </Pressable>
-              </View>
-            </View>
-            <CodePreview>{item.code}</CodePreview>
-          </Card>
-        )}
+    <>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <Image
+              source={require('../../assets/icon.png')}
+              style={{ width: 28, height: 28, borderRadius: 7 }}
+            />
+          ),
+        }}
       />
-      <Fab onPress={() => router.push('/code/new')} />
-    </View>
+
+      {codes.length === 0 ? (
+        <View className="flex-1 bg-background">
+          <EmptyState
+            title="Aucun code enregistré"
+            description="Ajoutez votre premier code USSD pour le retrouver facilement."
+            actionLabel="Ajouter un code"
+            onAction={() => router.push('/code/new')}
+          />
+          <Fab onPress={() => router.push('/code/new')} />
+        </View>
+      ) : (
+        <View className="flex-1 bg-background">
+          <FlatList
+            data={codes}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ gap: 8, padding: 16, paddingBottom: 96 }}
+            renderItem={({ item }) => (
+              <Card onPress={() => openCode(item.id)} onLongPress={() => confirmDelete(item)}>
+                <View className="flex-row items-center justify-between">
+                  <CardTitle>{item.name}</CardTitle>
+                  <View className="flex-row gap-4">
+                    <Pressable onPress={() => router.push(`/code/${item.id}?edit=1`)} hitSlop={8}>
+                      <Ionicons name="create-outline" size={20} color={iconColor} />
+                    </Pressable>
+                    <Pressable onPress={() => confirmDelete(item)} hitSlop={8}>
+                      <Ionicons name="trash-outline" size={20} color={iconColor} />
+                    </Pressable>
+                  </View>
+                </View>
+                <CodePreview>{item.code}</CodePreview>
+              </Card>
+            )}
+          />
+          <Fab onPress={() => router.push('/code/new')} />
+        </View>
+      )}
+    </>
   );
 }
 

@@ -57,7 +57,7 @@ function ExecuteView({ code }: { code: UssdCode }) {
     setMissing(empty);
     if (empty.length > 0) return;
     try {
-      await launchUssd(code.code);
+      await launchUssd(preview);
     } catch (error) {
       Alert.alert('Impossible de lancer le code', error instanceof Error ? error.message : 'Erreur inconnue');
     }
