@@ -1,6 +1,9 @@
+import * as IntentLauncher from 'expo-intent-launcher';
 import { Linking } from 'react-native';
 
 import { encodeUssdUri, launchUssd, sanitizeUssd } from '../ussd';
+
+const DIAL = 'android.intent.action.DIAL';
 
 describe('sanitizeUssd', () => {
   it('keeps digits, stars, hashes and letters', () => {
@@ -35,26 +38,44 @@ describe('launchUssd', () => {
     jest.restoreAllMocks();
   });
 
-  it('opens the dialer with the encoded tel: URI when supported', async () => {
-    jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
-    const openURLSpy = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
+  it('fires the ACTION_DIAL intent with the encoded tel: URI', async () => {
+    const startActivitySpy = jest
+      .spyOn(IntentLauncher, 'startActivityAsync')
+      .mockResolvedValue({} as IntentLauncher.IntentLauncherResult);
+    const openURLSpy = jest.spyOn(Linking, 'openURL');
 
     await launchUssd('#1*4*1*0340000000*5000#');
 
-    expect(openURLSpy).toHaveBeenCalledWith('tel:%231%2A4%2A1%2A0340000000%2A5000%23');
+    expect(startActivitySpy).toHaveBeenCalledWith(DIAL, {
+      data: 'tel:%231%2A4%2A1%2A0340000000%2A5000%23',
+    });
+    expect(openURLSpy).not.toHaveBeenCalled();
   });
 
-  it('throws an explicit message when no dialer can handle the URI', async () => {
-    jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(false);
+  it('falls back to Linking.openURL when the dialer intent is not found', async () => {
+    jest
+      .spyOn(IntentLauncher, 'startActivityAsync')
+      .mockRejectedValue(new Error('android.intent.action.DIAL: no activity found'));
+    const openURLSpy = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
+
+    await launchUssd('#100#');
+
+    expect(openURLSpy).toHaveBeenCalled();
+  });
+
+  it('throws an explicit message when opening fails entirely', async () => {
+    jest
+      .spyOn(IntentLauncher, 'startActivityAsync')
+      .mockRejectedValue(new Error('android.intent.action.DIAL: no activity found'));
+    jest.spyOn(Linking, 'openURL').mockRejectedValue(new Error('boom'));
 
     await expect(launchUssd('#100#')).rejects.toThrow(
-      "Aucun dialer disponible. Vérifiez qu'une application Téléphone est installée."
+      "Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée."
     );
   });
 
-  it('throws an explicit message when opening the URI fails', async () => {
-    jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
-    jest.spyOn(Linking, 'openURL').mockRejectedValue(new Error('boom'));
+  it('throws an explicit message on unexpected intent errors', async () => {
+    jest.spyOn(IntentLauncher, 'startActivityAsync').mockRejectedValue(new Error('weird error'));
 
     await expect(launchUssd('#100#')).rejects.toThrow(
       "Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée."

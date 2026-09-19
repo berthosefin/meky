@@ -1,3 +1,4 @@
+import * as IntentLauncher from 'expo-intent-launcher';
 import { Linking } from 'react-native';
 
 export function sanitizeUssd(code: string): string {
@@ -15,23 +16,36 @@ export function encodeUssdUri(code: string): string {
   return `tel:${encoded}`;
 }
 
+/**
+ * Launches the USSD code in the system dialer.
+ *
+ * On Android, `Linking.canOpenURL('tel:...')` can wrongly report false
+ * (Android 11+ intent verification), so we fire the `ACTION_DIAL` intent
+ * directly with expo-intent-launcher, and fall back to `Linking.openURL`.
+ */
 export async function launchUssd(code: string): Promise<void> {
   const url = encodeUssdUri(code);
 
-  let supported = true;
   try {
-    supported = await Linking.canOpenURL(url);
-  } catch {
-    // canOpenURL may throw on some devices; fall through to a direct attempt.
-  }
-
-  if (!supported) {
-    throw new Error("Aucun dialer disponible. Vérifiez qu'une application Téléphone est installée.");
+    await IntentLauncher.startActivityAsync('android.intent.action.DIAL', {
+      data: url,
+    });
+    return;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    // Ignore "activity not found" style errors and fall back to Linking below.
+    if (!/activity.*not found|no activity/i.test(message)) {
+      throw new Error(
+        "Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée."
+      );
+    }
   }
 
   try {
     await Linking.openURL(url);
   } catch {
-    throw new Error("Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée.");
+    throw new Error(
+      "Impossible d'ouvrir le dialer. Vérifiez qu'une application Téléphone est installée."
+    );
   }
 }

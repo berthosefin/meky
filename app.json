@@ -7,11 +7,6 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "scheme": "meky",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0C1113"
-    },
     "android": {
       "package": "com.berthosefin.meky",
       "adaptiveIcon": {
@@ -32,7 +27,17 @@
     },
     "owner": "berthosefin",
     "plugins": [
-      "expo-splash-screen"
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0C1113",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain"
+        }
+      ],
+      "expo-router",
+      "expo-font"
     ]
   }
 }
