@@ -42,7 +42,7 @@ export default function HomeScreen() {
         options={{
           headerLeft: () => (
             <Image
-              source={require('../../assets/icon.png')}
+              source={require('../assets/icon.png')}
               style={{ width: 28, height: 28, borderRadius: 7 }}
             />
           ),
