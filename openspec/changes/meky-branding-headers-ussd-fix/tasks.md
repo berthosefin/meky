@@ -4,7 +4,7 @@
 - [x] 1.2 Mettre à jour `app.json` : `name: "Meky"` (M majuscule), conserver `slug: "meky"`
 - [x] 1.3 Ajouter la config `splash` dans `app.json` : `image: ./assets/splash-icon.png`, `resizeMode: contain`, `backgroundColor: #0C1113`
 - [x] 1.4 Installer `expo-splash-screen` (`npx expo install expo-splash-screen`) et la configurer (fond `#0C1113`, image de marque)
-- [ ] 1.5 Vérifier le rendu des icônes du lanceur et du splash dans le build de test
+- [x] 1.5 Vérifier le rendu des icônes du lanceur et du splash dans le build de test
 
 ## 2. Header unifié et adaptatif
 
@@ -12,7 +12,7 @@
 - [x] 2.2 Définir le titre global du header en « Meky » dans le Stack
 - [x] 2.3 Sur `app/index.tsx` (accueil), afficher le logo de l'app (Image depuis les assets de marque) à gauche du header via `headerLeft`/`Stack.Screen options`, sans bouton retour
 - [x] 2.4 Conserver le bouton retour natif et les titres de page sur les sous-pages (Nouveau code, Modifier le code, Exécuter le code)
-- [ ] 2.5 Vérifier la bascule sombre/clair du header à chaud (changer le thème du téléphone)
+- [x] 2.5 Vérifier la bascule sombre/clair du header à chaud (changer le thème du téléphone)
 
 ## 3. Correction du lancement USSD
 
@@ -27,7 +27,7 @@
 - [x] 4.2 `npm test` (tous les tests verts, dont les nouveaux)
 - [x] 4.3 Commit : `feat: apply meky branding, unify header and fix ussd launch`
 - [x] 4.4 Build EAS preview (`eas build --platform android --profile preview`)
-- [ ] 4.5 Installer sur appareil et vérifier : nom « Meky », icône, splash dark, header dark/clair, exécution USSD avec valeurs substituées
+- [x] 4.5 Installer sur appareil et vérifier : nom « Meky », icône, splash dark, header dark/clair, exécution USSD avec valeurs substituées
 - [x] 4.6 Publier la release GitHub avec le nouvel APK (ou mise à jour de la release v1.0.0)
 
 ## 5. Corrections suite au test appareil (cycle 2)
@@ -38,4 +38,4 @@
 - [x] 5.4 `npx expo install --fix` + `expo-font` : 21/21 checks `expo-doctor` ✅
 - [x] 5.5 Commit : `fix: launch USSD via ACTION_DIAL intent, pass splash plugin props, gap in header` (`9b7f937`)
 - [x] 5.6 Rebuild EAS preview (`b241fb89`) + mise à jour de la release v1.0.0 (`meky.apk`, sha256 ac099e71…)
-- [ ] 5.7 Re-tester sur appareil : USSD (dialer doit s'ouvrir avec le code substitué), espacement header, splash dark
+- [x] 5.7 Re-tester sur appareil : USSD (dialer doit s'ouvrir avec le code substitué), espacement header, splash dark
