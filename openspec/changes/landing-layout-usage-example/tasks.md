@@ -26,5 +26,5 @@
 ## 5. Validation et publication
 
 - [x] 5.1 Validation statique : toutes les clés `data-i18n` résolues en `fr`/`en`, syntaxe JS/HTML OK, `prefers-color-scheme` et structure des sections intactes
-- [ ] 5.2 Commit + push sur `main`, attendre le rebuild GitHub Pages
-- [ ] 5.3 Vérifier sur mobile : header/footer/hero espacés des bords, section exemple servée (HTTP 200), libellés FR/EN corrects
+- [x] 5.2 Commit + push sur `main`, attendre le rebuild GitHub Pages
+- [x] 5.3 Vérifier sur mobile : header/footer/hero espacés des bords, section exemple servée (HTTP 200), libellés FR/EN corrects
