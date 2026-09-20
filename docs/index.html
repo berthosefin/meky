@@ -32,6 +32,7 @@
     --ring: #0F172A;
     --radius-card: 8px;
     --radius-btn: 6px;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -58,7 +59,7 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding-inline: 20px; }
 
   /* Icône application en squircle (tile opaque lisible dans les 2 thèmes) */
   .squircle { border-radius: 24%; }
@@ -70,7 +71,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 16px 0;
+    padding-block: 16px;
     border-bottom: 1px solid var(--border);
   }
   .brand { display: flex; align-items: center; gap: 10px; }
@@ -91,7 +92,7 @@
   button#langToggle:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 
   /* ---------- Hero ---------- */
-  main { padding: 52px 0 36px; }
+  main { padding-block: 56px 40px; }
   .hero { text-align: center; }
   .hero .appicon { width: 96px; height: 96px; margin: 0 auto 20px; display: block; }
   .badge {
@@ -208,10 +209,69 @@
     font-size: 0.92rem;
   }
 
+  /* ---------- Exemple d'usage (miroir de l'écran d'exécution de l'app) ---------- */
+  .example { margin-top: 56px; }
+  .example h2 { font-size: 1.3rem; margin-bottom: 8px; }
+  .example .exlead { color: var(--muted-foreground); margin-bottom: 18px; max-width: 640px; }
+  .ecard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 16px 18px;
+  }
+  .ecard h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 10px; }
+  .code-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+  .codebox {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 10px 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .codebox.fml { background: var(--muted); }
+  .code-fixed { color: var(--muted-foreground); }
+  .code-token { color: var(--foreground); font-weight: 600; }
+  .vars { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .var-row { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 0.9rem; }
+  .var-key { color: var(--foreground); font-weight: 600; }
+  .var-arrow { color: var(--muted-foreground); }
+  .var-val, .code-value {
+    background: var(--muted);
+    color: var(--foreground);
+    font-weight: 600;
+    padding: 0 6px;
+    border-radius: 4px;
+  }
+  .preview { margin-top: 14px; }
+  .preview-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: 6px;
+  }
+  .codebox.sub { background: var(--card); }
+
   /* ---------- Footer ---------- */
   footer.site {
     border-top: 1px solid var(--border);
-    padding: 22px 0 36px;
+    padding-block: 22px 36px;
     margin-top: 36px;
     color: var(--muted-foreground);
     font-size: 0.88rem;
@@ -229,7 +289,8 @@
   }
 
   @media (max-width: 480px) {
-    main { padding: 34px 0 22px; }
+    main { padding-block: 40px 24px; }
+    .codebox { font-size: 0.75rem; }
   }
 </style>
 </head>
@@ -254,6 +315,43 @@
       <span data-i18n="hero.cta">Télécharger l'APK</span>
     </a>
     <p class="direct"><a href="https://github.com/berthosefin/meky/releases" data-i18n="hero.direct">ou voir toutes les versions sur GitHub</a></p>
+  </section>
+
+  <section class="example">
+    <h2 data-i18n="example.title">Pourquoi Meky ?</h2>
+    <p class="exlead" data-i18n="example.lead">Chaque semaine, vous tapez ce genre de code de mémoire : long, facile à oublier, source d'erreurs. Avec Meky, vous ne l'écrivez qu'une seule fois.</p>
+    <ol class="steps">
+      <li>
+        <div class="ecard">
+          <h3 data-i18n="example.step1.title">Enregistrez la formule une fois</h3>
+          <span class="code-name" data-i18n="example.step1.name">Retrait MVola</span>
+          <div class="codebox fml" aria-label="#111*1*4*1*{NUMERO}*{MONTANT}#">
+            <span class="code-fixed">#111*1*4*1*</span><span class="code-token">{NUMERO}</span><span class="code-fixed">*</span><span class="code-token">{MONTANT}</span><span class="code-fixed">#</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="ecard">
+          <h3 data-i18n="example.step2.title">Quand le besoin revient</h3>
+          <div class="vars">
+            <div class="var-row"><span class="var-key">{NUMERO}</span><span class="var-arrow">→</span><span class="var-val">0340000000</span></div>
+            <div class="var-row"><span class="var-key">{MONTANT}</span><span class="var-arrow">→</span><span class="var-val">5000</span></div>
+          </div>
+          <div class="preview">
+            <span class="preview-label" data-i18n="example.step2.preview">Aperçu</span>
+            <div class="codebox sub">
+              <span class="code-fixed">#111*1*4*1*</span><span class="code-value">0340000000</span><span class="code-fixed">*</span><span class="code-value">5000</span><span class="code-fixed">#</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="ecard">
+          <h3 data-i18n="example.step3.title">Le dialer s'ouvre, pré-rempli</h3>
+          <p data-i18n="example.step3.desc">Plus rien à taper : il ne reste qu'à appuyer sur Appeler.</p>
+        </div>
+      </li>
+    </ol>
   </section>
 
   <section class="features" aria-label="Features">
@@ -314,6 +412,14 @@
       "hero.subtitle": "Meky est un carnet de codes USSD simple et pratique : enregistrez vos codes opérateurs préférés et lancez-les en une touche, même sans connexion.",
       "hero.cta": "Télécharger l'APK",
       "hero.direct": "ou voir toutes les versions sur GitHub",
+      "example.title": "Pourquoi Meky ?",
+      "example.lead": "Chaque semaine, vous tapez ce genre de code de mémoire : long, facile à oublier, source d'erreurs. Avec Meky, vous ne l'écrivez qu'une seule fois.",
+      "example.step1.title": "Enregistrez la formule une fois",
+      "example.step1.name": "Retrait MVola",
+      "example.step2.title": "Quand le besoin revient",
+      "example.step2.preview": "Aperçu",
+      "example.step3.title": "Le dialer s'ouvre, pré-rempli",
+      "example.step3.desc": "Plus rien à taper : il ne reste qu'à appuyer sur Appeler.",
       "features.offline.title": "100 % hors-ligne",
       "features.offline.desc": "Vos codes restent disponibles même sans connexion.",
       "features.free.title": "Gratuit et sans pub",
@@ -337,6 +443,14 @@
       "hero.subtitle": "Meky is a simple USSD code book: save your favorite operator codes and launch them in one tap, even offline.",
       "hero.cta": "Download the APK",
       "hero.direct": "or view all releases on GitHub",
+      "example.title": "Why Meky?",
+      "example.lead": "Every week you type this kind of code from memory: long, easy to forget, error-prone. With Meky, you only write it once.",
+      "example.step1.title": "Save the formula once",
+      "example.step1.name": "MVola withdrawal",
+      "example.step2.title": "When you need it again",
+      "example.step2.preview": "Preview",
+      "example.step3.title": "The dialer opens, pre-filled",
+      "example.step3.desc": "Nothing left to type: just press Call.",
       "features.offline.title": "Fully offline",
       "features.offline.desc": "Your codes stay available even without a connection.",
       "features.free.title": "Free and ad-free",
