@@ -46,6 +46,11 @@ export default function HomeScreen() {
               style={{ width: 28, height: 28, borderRadius: 7, marginRight: 10 }}
             />
           ),
+          headerRight: () => (
+            <Pressable onPress={() => router.push('/fees')} hitSlop={8}>
+              <Ionicons name="calculator-outline" size={22} color={iconColor} />
+            </Pressable>
+          ),
         }}
       />
 

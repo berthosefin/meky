@@ -28,7 +28,7 @@ type FeePlan = { id: string; updatedAt: string; minAmount: number;
 feeFor(amount, plan)      // frais d'un retrait unique
 optimalSplit(amount, plan) // { pieces: {amount, fee}[], totalFee, singleFee, savings }
 ```
-Le plan embarqué (`retrait` en Ariary, `updatedAt: '2026-09-20'`, bornes 100…20 000 000 Ar, 31 paliers des captures) est nommé de façon **générique** (`id: 'retrait'`), sans marque. Les futurs services (même structure tarifaire) s'ajouteront comme plans supplémentaires sans changer l'écran.
+Le plan embarqué (`retrait` en Ariary, `updatedAt: '2026-09-20'`, bornes 100…20 000 000 Ar, 29 paliers des captures) est nommé de façon **générique** (`id: 'retrait'`), sans marque. Les futurs services (même structure tarifaire) s'ajouteront comme plans supplémentaires sans changer l'écran.
 
 **D2 — Optimiseur : minimisation exacte, sans plafond de retraits**
 La fee est constante par palier ⇒ les pièces optimales sont des **hauts de paliers** plus éventuellement un **reste**. Résolution par programmation dynamique non bornée sur les hauts de paliers + reste (Σ fee minimale, somme exacte), jusqu'à la dernière bande. Caractérisation : l'optimum produit naturellement 1 à 3 retraits sur ce barème (le tarif décourage les découpages absurdes) — aucune plafond artificiel ajouté (décision utilisateur). Complexité O(montant × paliers), triviale pour les montants réels (≤ quelques dizaines de milliers d'états).

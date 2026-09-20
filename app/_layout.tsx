@@ -20,6 +20,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="index" />
+        <Stack.Screen name="fees" options={{ title: 'Frais & économies' }} />
         <Stack.Screen name="code/new" options={{ title: 'Nouveau code' }} />
         <Stack.Screen name="code/[id]" options={{ title: 'Exécuter' }} />
       </Stack>
