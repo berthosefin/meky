@@ -26,4 +26,4 @@
 
 - [x] 5.1 Vérifier que l'écran ne contient aucune mention d'opérateur (MVola, OM, Airtel, Telma…) ni de pays
 - [x] 5.2 Lancement des tests (jest) + typecheck (tsc) — sans régression des suites existantes
-- [ ] 5.3 Commit + push sur `main` ; repo, landing et specs `public-distribution` intacts (feature cachée)
+- [x] 5.3 Commit + push sur `main` ; repo, landing et specs `public-distribution` intacts (feature cachée)
