@@ -62,3 +62,14 @@ Le système SHALL suivre automatiquement la préférence de thème du système d
 #### Scenario: Mode clair système
 - **WHEN** le système du visiteur est en thème clair
 - **THEN** la page utilise la palette claire de l'application et reste lisible, logo et icônes compris
+
+### Requirement: Illustration du cas d'usage
+Le système SHALL illustrer le problème résolu par l'application avec un exemple concret : une formule USSD comportant des variables (`{NUMERO}`, `{MONTANT}`), leur substitution par des valeurs, et l'ouverture du dialer avec la formule composée. L'exemple SHALL être présenté dans les deux langues du site.
+
+#### Scenario: Exemple affiché
+- **WHEN** le visiteur consulte la section exemple
+- **THEN** la page montre une formule USSD à variables, la formule substituée et l'ouverture du dialer pré-rempli
+
+#### Scenario: Exemple bilingue
+- **WHEN** le visiteur bascule la langue de la page
+- **THEN** les libellés et le nom de l'exemple sont affichés dans la langue choisie
