@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meky — Carnet de codes USSD</title>
+<meta name="description" content="Meky — carnet de codes USSD hors-ligne pour Madagascar. Gratuit, sans pub, disponible hors-ligne. / Offline USSD code book for Madagascar." />
+<link rel="icon" type="image/png" href="favicon.png" />
+<style>
+  :root {
+    --bg: #0C1113;
+    --bg-soft: #11181C;
+    --surface: #161F24;
+    --border: #223038;
+    --text: #E9F0F4;
+    --muted: #9FB0BB;
+    --accent: #5BA3FE;
+    --accent-dark: #2E7BD6;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Header ---------- */
+  header.site {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand img { width: 36px; height: 36px; display: block; }
+  .brand span { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.3px; }
+  button#langToggle {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color .15s, color .15s, transform .1s;
+  }
+  button#langToggle:hover { border-color: var(--accent); color: var(--accent); }
+  button#langToggle:active { transform: scale(0.97); }
+
+  /* ---------- Hero ---------- */
+  main { padding: 56px 0 40px; }
+  .hero { text-align: center; }
+  .hero .appicon { width: 88px; height: 88px; margin: 0 auto 20px; display: block; }
+  .badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(91, 163, 254, 0.10);
+    border: 1px solid rgba(91, 163, 254, 0.25);
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.15; margin-bottom: 14px; }
+  h1 .grad {
+    background: linear-gradient(100deg, #5BA3FE, #9AD0FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lead { color: var(--muted); font-size: 1.08rem; max-width: 620px; margin: 0 auto 30px; }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 15px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(91, 163, 254, 0.30);
+    transition: transform .1s, box-shadow .15s;
+  }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(91, 163, 254, 0.42); }
+  .cta svg { width: 20px; height: 20px; }
+  .hero .direct { margin-top: 14px; font-size: 0.9rem; }
+  .hero .direct a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .hero .direct a:hover { color: var(--accent); }
+
+  /* ---------- Features ---------- */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+    margin: 52px 0 8px;
+  }
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+  }
+  .feature .icon { font-size: 1.5rem; display: block; margin-bottom: 8px; }
+  .feature h3 { font-size: 1rem; margin-bottom: 4px; }
+  .feature p { color: var(--muted); font-size: 0.9rem; }
+
+  /* ---------- Install ---------- */
+  .install {
+    margin-top: 52px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+  }
+  .install h2 { font-size: 1.35rem; margin-bottom: 8px; }
+  .install > p { color: var(--muted); margin-bottom: 18px; }
+  ol.steps { counter-reset: step; list-style: none; }
+  ol.steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 16px 48px;
+    color: var(--text);
+  }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ol.steps li::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 32px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--border);
+  }
+  ol.steps li:last-child::after { display: none; }
+  .install .note {
+    margin-top: 6px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--accent);
+    background: rgba(91, 163, 254, 0.07);
+    border-radius: 0 8px 8px 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    border-top: 1px solid var(--border);
+    padding: 24px 0 40px;
+    margin-top: 40px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  footer.site .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between; }
+  footer.site a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  footer.site a:hover { color: var(--accent); }
+  footer.site .version {
+    display: inline-block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    main { padding: 36px 0 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site wrap">
+  <div class="brand">
+    <img src="logo.png" alt="Meky" width="36" height="36" />
+    <span>Meky</span>
+  </div>
+  <button id="langToggle" type="button" aria-label="Switch language">EN</button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <img class="appicon" src="logo.png" alt="Meky" />
+    <span class="badge" data-i18n="hero.badge">Gratuit · Hors-ligne · Sans publicité</span>
+    <h1 data-i18n="hero.title">Vos codes USSD, <span class="grad">toujours à portée de main</span></h1>
+    <p class="lead" data-i18n="hero.subtitle">Meky est un carnet de codes USSD pour Madagascar : vos codes opérateurs réunis au même endroit, disponibles hors-ligne et lancés en une touche.</p>
+    <a class="cta" href="https://github.com/berthosefin/meky/releases/latest/download/meky.apk" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <span data-i18n="hero.cta">Télécharger l'APK</span>
+    </a>
+    <p class="direct"><a href="https://github.com/berthosefin/meky/releases" data-i18n="hero.direct">ou voir toutes les versions sur GitHub</a></p>
+  </section>
+
+  <section class="features" aria-label="Features">
+    <div class="feature">
+      <span class="icon">📴</span>
+      <h3 data-i18n="features.offline.title">100 % hors-ligne</h3>
+      <p data-i18n="features.offline.desc">Vos codes restent disponibles même sans connexion.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">🚫</span>
+      <h3 data-i18n="features.free.title">Gratuit et sans pub</h3>
+      <p data-i18n="features.free.desc">Aucune publicité, aucune donnée collectée.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">📞</span>
+      <h3 data-i18n="features.ussd.title">Lancement en une touche</h3>
+      <p data-i18n="features.ussd.desc">Le code s'ouvre directement dans l'appel USSD.</p>
+    </div>
+  </section>
+
+  <section class="install">
+    <h2 data-i18n="install.title">Comment installer</h2>
+    <p data-i18n="install.intro">L'APK n'est pas publié sur Google Play. Sur Android, autorisez l'installation depuis une source inconnue :</p>
+    <ol class="steps">
+      <li data-i18n="install.step1">Téléchargez le fichier APK avec le bouton ci-dessus.</li>
+      <li data-i18n="install.step2">Ouvrez le fichier depuis les notifications ou le dossier Téléchargements.</li>
+      <li data-i18n="install.step3">Si Android vous le demande, autorisez l'installation depuis votre navigateur ou le gestionnaire de fichiers.</li>
+      <li data-i18n="install.step4">Confirmez avec « Installer », puis ouvrez Meky.</li>
+    </ol>
+    <p class="note" data-i18n="install.note">Sur certaines versions d'Android, vous devrez aussi activer « Installer des applications inconnues » dans les réglages.</p>
+  </section>
+</main>
+
+<footer class="site wrap">
+  <div class="frow">
+    <div>
+      <p data-i18n="footer.disclaimer">Meky est une application indépendante, non affiliée aux opérateurs.</p>
+      <p><a href="https://github.com/berthosefin/meky" data-i18n="footer.opensource">Application open-source sur GitHub</a></p>
+    </div>
+    <span class="version" data-i18n="version.label">Version : 1.0.0</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var I18N = {
+    fr: {
+      "hero.badge": "Gratuit · Hors-ligne · Sans publicité",
+      "hero.title": "Vos codes USSD, toujours à portée de main",
+      "hero.subtitle": "Meky est un carnet de codes USSD pour Madagascar : vos codes opérateurs réunis au même endroit, disponibles hors-ligne et lancés en une touche.",
+      "hero.cta": "Télécharger l'APK",
+      "hero.direct": "ou voir toutes les versions sur GitHub",
+      "features.offline.title": "100 % hors-ligne",
+      "features.offline.desc": "Vos codes restent disponibles même sans connexion.",
+      "features.free.title": "Gratuit et sans pub",
+      "features.free.desc": "Aucune publicité, aucune donnée collectée.",
+      "features.ussd.title": "Lancement en une touche",
+      "features.ussd.desc": "Le code s'ouvre directement dans l'appel USSD.",
+      "install.title": "Comment installer",
+      "install.intro": "L'APK n'est pas publié sur Google Play. Sur Android, autorisez l'installation depuis une source inconnue :",
+      "install.step1": "Téléchargez le fichier APK avec le bouton ci-dessus.",
+      "install.step2": "Ouvrez le fichier depuis les notifications ou le dossier Téléchargements.",
+      "install.step3": "Si Android vous le demande, autorisez l'installation depuis votre navigateur ou le gestionnaire de fichiers.",
+      "install.step4": "Confirmez avec « Installer », puis ouvrez Meky.",
+      "install.note": "Sur certaines versions d'Android, vous devrez aussi activer « Installer des applications inconnues » dans les réglages.",
+      "footer.disclaimer": "Meky est une application indépendante, non affiliée aux opérateurs.",
+      "footer.opensource": "Application open-source sur GitHub",
+      "version.label": "Version : 1.0.0"
+    },
+    en: {
+      "hero.badge": "Free · Offline · No ads",
+      "hero.title": "Your USSD codes, always within reach",
+      "hero.subtitle": "Meky is a USSD code book for Madagascar: your operator codes gathered in one place, available offline and launched in one tap.",
+      "hero.cta": "Download the APK",
+      "hero.direct": "or view all releases on GitHub",
+      "features.offline.title": "Fully offline",
+      "features.offline.desc": "Your codes stay available even without a connection.",
+      "features.free.title": "Free and ad-free",
+      "features.free.desc": "No ads, no data collection.",
+      "features.ussd.title": "One-tap launch",
+      "features.ussd.desc": "The code opens directly in the USSD call.",
+      "install.title": "How to install",
+      "install.intro": "The APK is not on Google Play. On Android, allow installation from unknown sources:",
+      "install.step1": "Download the APK file with the button above.",
+      "install.step2": "Open the file from your notifications or the Downloads folder.",
+      "install.step3": "If prompted, allow installation from your browser or file manager.",
+      "install.step4": "Confirm with “Install”, then open Meky.",
+      "install.note": "On some Android versions, you also need to enable “Install unknown apps” in Settings.",
+      "footer.disclaimer": "Meky is an independent app, not affiliated with any operator.",
+      "footer.opensource": "Open-source app on GitHub",
+      "version.label": "Version: 1.0.0"
+    }
+  };
+
+  var STORAGE_KEY = "meky-lang";
+  var toggle = document.getElementById("langToggle");
+  var revert = { fr: "en", en: "fr" };
+  var labels = { fr: "EN", en: "FR" };
+
+  function detectLanguage() {
+    var stored = null;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) { /* private mode */ }
+    if (stored && I18N[stored]) return stored;
+    var nav = (navigator.language || (navigator.languages && navigator.languages[0]) || "fr").toLowerCase();
+    return nav.indexOf("en") === 0 ? "en" : "fr";
+  }
+
+  function apply(lang) {
+    var strings = I18N[lang];
+    var nodes = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute("data-i18n");
+      if (strings[key]) nodes[i].textContent = strings[key];
+    }
+    document.documentElement.lang = lang;
+    toggle.textContent = labels[lang];
+    toggle.setAttribute("aria-label", "Switch to " + revert[lang]);
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* private mode */ }
+  }
+
+  var current = detectLanguage();
+  apply(current);
+
+  toggle.addEventListener("click", function () {
+    apply(revert[current]);
+    current = revert[current];
+  });
+})();
+</script>
+</body>
+</html>
