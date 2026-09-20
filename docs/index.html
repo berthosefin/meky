@@ -4,149 +4,187 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Meky — Carnet de codes USSD</title>
-<meta name="description" content="Meky — carnet de codes USSD hors-ligne pour Madagascar. Gratuit, sans pub, disponible hors-ligne. / Offline USSD code book for Madagascar." />
+<meta name="description" content="Meky — carnet de codes USSD hors-ligne. Gratuit, sans pub : enregistrez et lancez vos codes USSD en une touche. / Offline USSD code book. Free, ad-free." />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAFA" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#09090B" />
 <link rel="icon" type="image/png" href="favicon.png" />
+<!-- Open Graph (aperçus WhatsApp / Telegram) -->
+<meta property="og:title" content="Meky — Carnet de codes USSD" />
+<meta property="og:description" content="Carnet de codes USSD hors-ligne. Gratuit, sans pub, disponible hors-ligne. / Offline USSD code book. Free, ad-free." />
+<meta property="og:image" content="https://berthosefin.github.io/meky/icon.png" />
+<meta property="og:image:alt" content="Meky" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://berthosefin.github.io/meky/" />
 <style>
+  /* Palette exacte de l'application (global.css) */
   :root {
-    --bg: #0C1113;
-    --bg-soft: #11181C;
-    --surface: #161F24;
-    --border: #223038;
-    --text: #E9F0F4;
-    --muted: #9FB0BB;
-    --accent: #5BA3FE;
-    --accent-dark: #2E7BD6;
-    --radius: 14px;
+    color-scheme: light dark;
+    --background: #FAFAFA;
+    --foreground: #18181B;
+    --card: #FFFFFF;
+    --card-foreground: #18181B;
+    --primary: #0F172A;
+    --primary-foreground: #F8FAFC;
+    --muted: #F4F4F5;
+    --muted-foreground: #71717A;
+    --border: #E4E4E7;
+    --input: #E4E4E7;
+    --ring: #0F172A;
+    --radius-card: 8px;
+    --radius-btn: 6px;
   }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #09090B;
+      --foreground: #FAFAFA;
+      --card: #18181B;
+      --card-foreground: #FAFAFA;
+      --primary: #E4E4E7;
+      --primary-foreground: #18181B;
+      --muted: #27272A;
+      --muted-foreground: #A1A1AA;
+      --border: #27272A;
+      --input: #3F3F46;
+      --ring: #E4E4E7;
+    }
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
-    color: var(--text);
+    background: var(--background);
+    color: var(--foreground);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
 
-  /* ---------- Header ---------- */
+  /* Icône application en squircle (tile opaque lisible dans les 2 thèmes) */
+  .squircle { border-radius: 24%; }
+  .squircle-ring { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.07); }
+
+  /* ---------- Header (comme le header natif de l'app) ---------- */
   header.site {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 18px 0;
+    padding: 16px 0;
     border-bottom: 1px solid var(--border);
   }
   .brand { display: flex; align-items: center; gap: 10px; }
-  .brand img { width: 36px; height: 36px; display: block; }
-  .brand span { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.3px; }
+  .brand img { width: 32px; height: 32px; display: block; }
+  .brand span { font-size: 1.2rem; font-weight: 600; letter-spacing: 0.3px; }
   button#langToggle {
-    background: var(--surface);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--input);
+    border-radius: var(--radius-btn);
     padding: 7px 14px;
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
-    transition: border-color .15s, color .15s, transform .1s;
+    transition: background-color .15s, border-color .15s;
   }
-  button#langToggle:hover { border-color: var(--accent); color: var(--accent); }
-  button#langToggle:active { transform: scale(0.97); }
+  button#langToggle:hover { background: var(--muted); border-color: var(--border); }
+  button#langToggle:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 
   /* ---------- Hero ---------- */
-  main { padding: 56px 0 40px; }
+  main { padding: 52px 0 36px; }
   .hero { text-align: center; }
-  .hero .appicon { width: 88px; height: 88px; margin: 0 auto 20px; display: block; }
+  .hero .appicon { width: 96px; height: 96px; margin: 0 auto 20px; display: block; }
   .badge {
     display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    color: var(--accent);
-    background: rgba(91, 163, 254, 0.10);
-    border: 1px solid rgba(91, 163, 254, 0.25);
+    color: var(--muted-foreground);
+    background: var(--muted);
     border-radius: 999px;
     padding: 6px 14px;
     margin-bottom: 18px;
   }
-  h1 { font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.15; margin-bottom: 14px; }
-  h1 .grad {
-    background: linear-gradient(100deg, #5BA3FE, #9AD0FF);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .hero p.lead { color: var(--muted); font-size: 1.08rem; max-width: 620px; margin: 0 auto 30px; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.15; font-weight: 700; margin-bottom: 14px; }
+  .hero p.lead { color: var(--muted-foreground); font-size: 1.08rem; max-width: 620px; margin: 0 auto 30px; }
   .cta {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
-    color: #fff;
+    background: var(--primary);
+    color: var(--primary-foreground);
     text-decoration: none;
-    font-weight: 700;
-    font-size: 1.05rem;
-    padding: 15px 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(91, 163, 254, 0.30);
-    transition: transform .1s, box-shadow .15s;
+    font-weight: 600;
+    font-size: 1.02rem;
+    padding: 13px 26px;
+    border-radius: var(--radius-btn);
+    transition: opacity .15s, transform .1s, box-shadow .15s;
   }
-  .cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(91, 163, 254, 0.42); }
+  .cta:hover { opacity: 0.92; transform: translateY(-1px); }
+  .cta:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
   .cta svg { width: 20px; height: 20px; }
   .hero .direct { margin-top: 14px; font-size: 0.9rem; }
-  .hero .direct a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  .hero .direct a:hover { color: var(--accent); }
+  .hero .direct a { color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; }
+  .hero .direct a:hover { color: var(--foreground); }
 
-  /* ---------- Features ---------- */
+  /* ---------- Features (cartés de l'app) ---------- */
   .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 14px;
-    margin: 52px 0 8px;
+    margin: 48px 0 8px;
   }
   .feature {
-    background: var(--surface);
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 16px;
+    border-radius: var(--radius-card);
+    padding: 20px 18px;
   }
-  .feature .icon { font-size: 1.5rem; display: block; margin-bottom: 8px; }
-  .feature h3 { font-size: 1rem; margin-bottom: 4px; }
-  .feature p { color: var(--muted); font-size: 0.9rem; }
+  .feature .fcircle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .feature .fcircle svg { width: 22px; height: 22px; color: var(--muted-foreground); }
+  .feature h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+  .feature p { color: var(--muted-foreground); font-size: 0.9rem; }
 
   /* ---------- Install ---------- */
   .install {
-    margin-top: 52px;
-    background: var(--bg-soft);
+    margin-top: 48px;
+    background: var(--card);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
+    border-radius: var(--radius-card);
+    padding: 26px 24px;
   }
-  .install h2 { font-size: 1.35rem; margin-bottom: 8px; }
-  .install > p { color: var(--muted); margin-bottom: 18px; }
+  .install h2 { font-size: 1.3rem; margin-bottom: 8px; }
+  .install > p { color: var(--muted-foreground); margin-bottom: 18px; }
   ol.steps { counter-reset: step; list-style: none; }
   ol.steps li {
     counter-increment: step;
     position: relative;
-    padding: 0 0 16px 48px;
-    color: var(--text);
+    padding: 0 0 16px 46px;
+    color: var(--foreground);
   }
   ol.steps li::before {
     content: counter(step);
     position: absolute;
     left: 0;
     top: 0;
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background: var(--surface);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.9rem;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    color: var(--muted-foreground);
+    font-weight: 600;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -154,8 +192,8 @@
   ol.steps li::after {
     content: "";
     position: absolute;
-    left: 14px;
-    top: 32px;
+    left: 13px;
+    top: 30px;
     bottom: 4px;
     width: 2px;
     background: var(--border);
@@ -164,27 +202,26 @@
   .install .note {
     margin-top: 6px;
     padding: 12px 14px;
-    border-left: 3px solid var(--accent);
-    background: rgba(91, 163, 254, 0.07);
-    border-radius: 0 8px 8px 0;
-    color: var(--muted);
+    background: var(--muted);
+    border-radius: var(--radius-btn);
+    color: var(--muted-foreground);
     font-size: 0.92rem;
   }
 
   /* ---------- Footer ---------- */
   footer.site {
     border-top: 1px solid var(--border);
-    padding: 24px 0 40px;
-    margin-top: 40px;
-    color: var(--muted);
+    padding: 22px 0 36px;
+    margin-top: 36px;
+    color: var(--muted-foreground);
     font-size: 0.88rem;
   }
   footer.site .frow { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between; }
-  footer.site a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
-  footer.site a:hover { color: var(--accent); }
+  footer.site a { color: var(--muted-foreground); text-decoration: underline; text-underline-offset: 3px; }
+  footer.site a:hover { color: var(--foreground); }
   footer.site .version {
     display: inline-block;
-    background: var(--surface);
+    background: var(--muted);
     border: 1px solid var(--border);
     padding: 2px 10px;
     border-radius: 999px;
@@ -192,7 +229,7 @@
   }
 
   @media (max-width: 480px) {
-    main { padding: 36px 0 24px; }
+    main { padding: 34px 0 22px; }
   }
 </style>
 </head>
@@ -200,7 +237,7 @@
 
 <header class="site wrap">
   <div class="brand">
-    <img src="logo.png" alt="Meky" width="36" height="36" />
+    <img class="squircle squircle-ring" src="icon.png" alt="Meky" width="32" height="32" />
     <span>Meky</span>
   </div>
   <button id="langToggle" type="button" aria-label="Switch language">EN</button>
@@ -208,10 +245,10 @@
 
 <main class="wrap">
   <section class="hero">
-    <img class="appicon" src="logo.png" alt="Meky" />
+    <img class="appicon squircle squircle-ring" src="icon.png" alt="Meky" />
     <span class="badge" data-i18n="hero.badge">Gratuit · Hors-ligne · Sans publicité</span>
-    <h1 data-i18n="hero.title">Vos codes USSD, <span class="grad">toujours à portée de main</span></h1>
-    <p class="lead" data-i18n="hero.subtitle">Meky est un carnet de codes USSD pour Madagascar : vos codes opérateurs réunis au même endroit, disponibles hors-ligne et lancés en une touche.</p>
+    <h1 data-i18n="hero.title">Vos codes USSD, toujours à portée de main</h1>
+    <p class="lead" data-i18n="hero.subtitle">Meky est un carnet de codes USSD simple et pratique : enregistrez vos codes opérateurs préférés et lancez-les en une touche, même sans connexion.</p>
     <a class="cta" href="https://github.com/berthosefin/meky/releases/latest/download/meky.apk" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       <span data-i18n="hero.cta">Télécharger l'APK</span>
@@ -221,17 +258,23 @@
 
   <section class="features" aria-label="Features">
     <div class="feature">
-      <span class="icon">📴</span>
+      <div class="fcircle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.61 16.95A5 5 0 0 0 18 10h-1.26a8 8 0 0 0-7.05-6M5 5a8 8 0 0 0 4 15h9a5 5 0 0 0 1.7-.3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </div>
       <h3 data-i18n="features.offline.title">100 % hors-ligne</h3>
       <p data-i18n="features.offline.desc">Vos codes restent disponibles même sans connexion.</p>
     </div>
     <div class="feature">
-      <span class="icon">🚫</span>
+      <div class="fcircle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+      </div>
       <h3 data-i18n="features.free.title">Gratuit et sans pub</h3>
       <p data-i18n="features.free.desc">Aucune publicité, aucune donnée collectée.</p>
     </div>
     <div class="feature">
-      <span class="icon">📞</span>
+      <div class="fcircle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
       <h3 data-i18n="features.ussd.title">Lancement en une touche</h3>
       <p data-i18n="features.ussd.desc">Le code s'ouvre directement dans l'appel USSD.</p>
     </div>
@@ -253,7 +296,7 @@
 <footer class="site wrap">
   <div class="frow">
     <div>
-      <p data-i18n="footer.disclaimer">Meky est une application indépendante, non affiliée aux opérateurs.</p>
+      <p data-i18n="footer.disclaimer">Meky est une application indépendante, non affiliée à un opérateur.</p>
       <p><a href="https://github.com/berthosefin/meky" data-i18n="footer.opensource">Application open-source sur GitHub</a></p>
     </div>
     <span class="version" data-i18n="version.label">Version : 1.0.0</span>
@@ -268,7 +311,7 @@
     fr: {
       "hero.badge": "Gratuit · Hors-ligne · Sans publicité",
       "hero.title": "Vos codes USSD, toujours à portée de main",
-      "hero.subtitle": "Meky est un carnet de codes USSD pour Madagascar : vos codes opérateurs réunis au même endroit, disponibles hors-ligne et lancés en une touche.",
+      "hero.subtitle": "Meky est un carnet de codes USSD simple et pratique : enregistrez vos codes opérateurs préférés et lancez-les en une touche, même sans connexion.",
       "hero.cta": "Télécharger l'APK",
       "hero.direct": "ou voir toutes les versions sur GitHub",
       "features.offline.title": "100 % hors-ligne",
@@ -284,14 +327,14 @@
       "install.step3": "Si Android vous le demande, autorisez l'installation depuis votre navigateur ou le gestionnaire de fichiers.",
       "install.step4": "Confirmez avec « Installer », puis ouvrez Meky.",
       "install.note": "Sur certaines versions d'Android, vous devrez aussi activer « Installer des applications inconnues » dans les réglages.",
-      "footer.disclaimer": "Meky est une application indépendante, non affiliée aux opérateurs.",
+      "footer.disclaimer": "Meky est une application indépendante, non affiliée à un opérateur.",
       "footer.opensource": "Application open-source sur GitHub",
       "version.label": "Version : 1.0.0"
     },
     en: {
       "hero.badge": "Free · Offline · No ads",
       "hero.title": "Your USSD codes, always within reach",
-      "hero.subtitle": "Meky is a USSD code book for Madagascar: your operator codes gathered in one place, available offline and launched in one tap.",
+      "hero.subtitle": "Meky is a simple USSD code book: save your favorite operator codes and launch them in one tap, even offline.",
       "hero.cta": "Download the APK",
       "hero.direct": "or view all releases on GitHub",
       "features.offline.title": "Fully offline",
