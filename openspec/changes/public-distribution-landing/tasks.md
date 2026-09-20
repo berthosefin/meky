@@ -20,7 +20,7 @@
 
 ## 4. GitHub Pages et vérification
 
-- [ ] 4.1 Activer GitHub Pages sur la branche `main`, dossier `/docs`
-- [ ] 4.2 Vérifier l'accès public : `https://berthosefin.github.io/meky/` charge sans connexion
-- [ ] 4.3 Vérifier que le bouton de téléchargement récupère bien le dernier APK (`meky.apk`, v1.0.0)
-- [ ] 4.4 Commit final : `feat: public landing page with FR/EN download`
+- [x] 4.1 Activer GitHub Pages sur la branche `main`, dossier `/docs`
+- [x] 4.2 Vérifier l'accès public : `https://berthosefin.github.io/meky/` charge sans connexion
+- [x] 4.3 Vérifier que le bouton de téléchargement récupère bien le dernier APK (`meky.apk`, v1.0.0)
+- [x] 4.4 Commit final : `feat: public landing page with FR/EN download`
