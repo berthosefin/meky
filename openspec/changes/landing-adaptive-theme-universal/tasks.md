@@ -22,5 +22,5 @@
 ## 5. Validation et publication
 
 - [x] 5.1 Valider statiquement : toutes les clés `data-i18n` présentes dans les objets `fr`/`en`, syntaxe JS OK
-- [ ] 5.2 Commit + push sur `main`, attendre le rebuild Pages
-- [ ] 5.3 Vérifier le site servé (HTTP 200, media query `prefers-color-scheme` présente, squircle `icon.png`) et les métadonnées GitHub (description sans pays, topic retiré)
+- [x] 5.2 Commit + push sur `main`, attendre le rebuild Pages
+- [x] 5.3 Vérifier le site servé (HTTP 200, media query `prefers-color-scheme` présente, squircle `icon.png`) et les métadonnées GitHub (description sans pays, topic retiré)
