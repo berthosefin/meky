@@ -11,7 +11,7 @@
 
 ## 3. Publication et validation
 
-- [ ] 3.1 Remplacer l'asset `meky.apk` sur la release `v1.0.0` (delete + upload du nouvel APK)
-- [ ] 3.2 Mettre à jour la note de release avec le nouvel ID de build EAS (convention du repo, design D3)
-- [ ] 3.3 Vérifier le lien `releases/latest/download/meky.apk` (HTTP 200, `content-length` cohérent avec le nouvel APK, design D4.4)
-- [ ] 3.4 Commit + push sur `main` (husky : jest + tsc + commitlint) — landing (`docs/`), specs et app code intacts (design Goals/Non-Goals)
+- [x] 3.1 Remplacer l'asset `meky.apk` sur la release `v1.0.0` (delete + upload du nouvel APK) — 60 891 156 octets
+- [x] 3.2 Mettre à jour la note de release avec le nouvel ID de build EAS (convention du repo, design D3) — `d435e94f`
+- [x] 3.3 Vérifier le lien `releases/latest/download/meky.apk` (HTTP 200, `content-length` cohérent avec le nouvel APK, design D4.4) — 200, 60 891 156 octets
+- [x] 3.4 Commit + push sur `main` (husky : jest + tsc + commitlint) — landing (`docs/`), specs et app code intacts (design Goals/Non-Goals)
