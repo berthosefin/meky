@@ -19,8 +19,9 @@ Contrainte de distribution : la landing pointe vers `https://github.com/berthose
 
 ## Decisions
 
-**D1 — Filtrer les ABIs via `expo-build-properties`** (`android.abiFilters: ["arm64-v8a", "armeabi-v7a"]`), déclaré en plugin dans `app.json`.
-- Pourquoi : c'est la mécanique supportée et documentée par Expo/EAS pour le prebuild ; le plugin est une dépendance de build n'ajoutant rien au runtime ni à l'APK.
+**D1 — Filtrer les ABIs via `expo-build-properties`** (`android.buildArchs: ["arm64-v8a", "armeabi-v7a"]`), déclaré en plugin dans `app.json`.
+- Pourquoi : le plugin écrit la propriété gradle `reactNativeArchitectures` ; le gradle plugin RN (`com.facebook.react`) la lit et l'applique au module app via `defaultConfig.ndk.abiFilters` → **toutes** les libs natives (ReactAndroid, Hermes, AAR tierces type reanimated/MMKV/expo-modules) sont filtrées au packaging. C'est la mécanique supportée et documentée par Expo/RN ; le plugin est une dépendance de build n'ajoutant rien au runtime ni à l'APK.
+- Attention : `android.abiFilters` n'existe **pas** dans le schéma de `expo-build-properties` (57.0.21) — une telle clé est ignorée silencieusement (build 103 MB constaté le 2026-09-22, build EAS `6d01347f`). Utiliser impérativement `android.buildArchs`.
 - Alternatives : (a) `android.ndk.abiFilters` legacy dans `app.json` — déprécié/support inégal selon SDK ; (b) split d'APK par ABI via gradle `splits` — casse le fichier unique exigé par la landing ; (c) AAB (`app-bundle`) — inutilisable, pas de Play Store.
 
 **D2 — Conserver `armeabi-v7a`** : l'objectif « sans risque » prime. La réduction passe de 103 → 57 MB (on retire 45,9 MB de x86/x86_64) alors que arm64-only économiserait 15,3 MB de plus mais exclurait les rares devices 32-bit encore en circulation — non retenu.

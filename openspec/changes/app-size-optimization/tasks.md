@@ -1,13 +1,13 @@
 ## 1. Configuration du build
 
-- [ ] 1.1 Installer `expo-build-properties` (dépendance de build, ajoutée à `package.json`)
-- [ ] 1.2 Déclarer le plugin `expo-build-properties` dans `app.json` avec `android.abiFilters: ["arm64-v8a", "armeabi-v7a"]`
+- [x] 1.1 Installer `expo-build-properties` (dépendance de build, ajoutée à `package.json`)
+- [x] 1.2 Déclarer le plugin `expo-build-properties` dans `app.json` avec `android.buildArchs: ["arm64-v8a", "armeabi-v7a"]` (→ propriété gradle `reactNativeArchitectures`, appliquée au packaging par le plugin RN)
 
 ## 2. Build et vérification
 
-- [ ] 2.1 Rebuild EAS preview (`eas build --platform android --profile preview`)
-- [ ] 2.2 Télécharger l'artefact et contrôler le contenu : taille < 60 MB, `unzip -l` → seules les ABIs `arm64-v8a` + `armeabi-v7a` présentes, `x86`/`x86_64` absentes (design D4.2)
-- [ ] 2.3 Installer et lancer l'app sur un device arm64 réel (vérification D4.3)
+- [x] 2.1 Rebuild EAS preview (`eas build --platform android --profile preview`) — build `d435e94f`
+- [x] 2.2 Télécharger l'artefact et contrôler le contenu : taille < 60 MB, `unzip -l` → seules les ABIs `arm64-v8a` + `armeabi-v7a` présentes, `x86`/`x86_64` absentes (design D4.2) — 58,1 MiB, 25/25 .so, sha256 `e54fb3cb`
+- [x] 2.3 Installer et lancer l'app sur un device arm64 réel (vérification D4.3) — confirmé par l'utilisateur
 
 ## 3. Publication et validation
 
