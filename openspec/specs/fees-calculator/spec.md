@@ -35,3 +35,29 @@ Le système SHALL rendre la calculatrice accessible depuis l'écran d'accueil vi
 #### Scenario: Accès par icône discrète
 - **WHEN** l'utilisateur consulte l'écran d'accueil
 - **THEN** une icône sans libellé commercial permet d'ouvrir l'écran de calcul
+
+### Requirement: Calcul des frais de transfert
+Le système SHALL permettre de calculer les **frais de transfert** en plus des frais de retrait. Pour un montant saisi (montant **net reçu** par le destinataire), le système SHALL calculer les frais de transfert appliqués au montant transféré selon le barème de transfert embarqué, et afficher le découpage optimal (nombre d'envois, montants, frais par envoi, frais totaux et économie par rapport à un envoi unique), sans afficher de marque d'opérateur.
+
+#### Scenario: Calcul de frais de transfert avec envoi unique vs optimal
+- **WHEN** l'utilisateur sélectionne le mode « Transfert », saisit un montant net reçu valide (≥ minimum du barème de transfert)
+- **THEN** l'écran affiche les frais d'un envoi unique, le découpage optimal (nombre, montants, frais par envoi), les frais totaux et l'économie réalisée
+
+#### Scenario: Montant invalide en mode transfert
+- **WHEN** l'utilisateur saisit un montant inférieur au minimum du barème de transfert ou non numérique en mode Transfert
+- **THEN** l'écran affiche un message d'erreur explicite et aucun calcul
+
+### Requirement: Option frais de retrait inclus
+En mode « Transfert », le système SHALL proposer une case à cocher « Envoyer avec frais de retrait ». Si la case est **non cochée**, le montant transféré = montant net saisi. Si la case est **cochée**, le montant transféré = montant net saisi + frais de retrait calculés sur le montant net saisi (selon le barème de retrait). Le calcul des frais de transfert et du découpage optimal SHALL être effectué sur ce montant transféré. Si le montant transféré > 20 000 000 Ar, le système SHALL afficher un message d'erreur explicite.
+
+#### Scenario: Transfert sans frais de retrait inclus
+- **WHEN** le mode Transfert est sélectionné, la case « Envoyer avec frais de retrait » est décochée, et l'utilisateur saisit un montant net reçu valide
+- **THEN** le montant transféré utilisé est égal au montant net saisi ; les frais de transfert sont calculés sur ce montant
+
+#### Scenario: Transfert avec frais de retrait inclus
+- **WHEN** le mode Transfert est sélectionné, la case « Envoyer avec frais de retrait » est cochée, et l'utilisateur saisit un montant net reçu valide
+- **THEN** le montant transféré utilisé est égal au montant net saisi + frais de retrait du montant net saisi ; les frais de transfert et l'optimisation sont calculés sur ce montant transféré
+
+#### Scenario: Plafond dépassé avec frais de retrait inclus
+- **WHEN** la case « Envoyer avec frais de retrait » est cochée et (montant net + frais de retrait sur ce net) > 20 000 000 Ar
+- **THEN** le système affiche un message d'erreur explicite et aucun calcul
