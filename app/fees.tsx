@@ -1,38 +1,121 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { Card, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { formatAr, isValidAmount, optimalSplit, RETRAIT_PLAN } from '@/lib/fees';
+import { Label } from '@/components/ui/label';
+import {
+  feeFor,
+  formatAr,
+  isValidAmount,
+  optimalSplit,
+  RETRAIT_PLAN,
+  TRANSFERT_PLAN,
+} from '@/lib/fees';
 import { keyboardFor } from '@/lib/keyboard';
 
+type Mode = 'retrait' | 'transfert';
+
+const MODES: { id: Mode; label: string }[] = [
+  { id: 'retrait', label: 'Retrait' },
+  { id: 'transfert', label: 'Transfert' },
+];
+
 export default function FeesScreen() {
+  const [mode, setMode] = useState<Mode>('retrait');
   const [raw, setRaw] = useState('');
+  const [withRetraitFees, setWithRetraitFees] = useState(false);
+
   const amountText = raw.replace(/[^0-9]/g, '');
   const amount = amountText === '' ? NaN : Number(amountText);
+  const plan = mode === 'retrait' ? RETRAIT_PLAN : TRANSFERT_PLAN;
+  const term = mode === 'retrait' ? 'retrait' : 'transfert';
 
-  const error =
-    amountText !== '' && !isValidAmount(amount, RETRAIT_PLAN)
-      ? `Saisissez un montant de ${formatAr(RETRAIT_PLAN.minAmount)} à ${formatAr(RETRAIT_PLAN.maxAmount)}`
+  const netError =
+    amountText !== '' && !isValidAmount(amount, plan)
+      ? `Saisissez un montant de ${formatAr(plan.minAmount)} à ${formatAr(plan.maxAmount)}`
       : undefined;
 
-  const result = useMemo(() => {
-    if (amountText === '' || error != null) return undefined;
-    return optimalSplit(amount, RETRAIT_PLAN);
-  }, [amountText, amount, error]);
+  // Montant transféré : net reçu + frais de retrait(net) si l'option est cochée.
+  const transferAmount = useMemo(() => {
+    if (amountText === '' || netError != null) return NaN;
+    if (mode === 'transfert' && withRetraitFees) {
+      return amount + feeFor(amount, RETRAIT_PLAN);
+    }
+    return amount;
+  }, [amountText, netError, mode, withRetraitFees, amount]);
 
-  const updatedAt = RETRAIT_PLAN.updatedAt.split('-').reverse().join('/');
+  const exceedsError =
+    mode === 'transfert' &&
+    withRetraitFees &&
+    Number.isFinite(transferAmount) &&
+    transferAmount > TRANSFERT_PLAN.maxAmount
+      ? `Montant transféré trop élevé (maximum ${formatAr(TRANSFERT_PLAN.maxAmount)} avec les frais de retrait inclus)`
+      : undefined;
+
+  const error = netError ?? exceedsError;
+
+  const result = useMemo(() => {
+    if (amountText === '' || error != null || !Number.isFinite(transferAmount)) return undefined;
+    return optimalSplit(transferAmount, plan);
+  }, [amountText, error, transferAmount, plan]);
+
+  const updatedAt = plan.updatedAt.split('-').reverse().join('/');
 
   return (
     <ScrollView className="flex-1 bg-background" contentContainerStyle={{ gap: 16, padding: 16 }}>
+      <View className="flex-row rounded-lg border border-border bg-card p-1" accessibilityRole="tablist">
+        {MODES.map((m) => {
+          const selected = mode === m.id;
+          return (
+            <Pressable
+              key={m.id}
+              onPress={() => setMode(m.id)}
+              accessibilityRole="tab"
+              accessibilityState={{ selected }}
+              className={`flex-1 items-center justify-center rounded-md py-2 ${
+                selected ? 'bg-primary' : 'bg-transparent'
+              }`}
+            >
+              <Text className={`text-sm font-medium ${selected ? 'text-primary-foreground' : 'text-foreground'}`}>
+                {m.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+
       <Input
-        label="Montant à retirer"
+        label={mode === 'retrait' ? 'Montant à retirer' : 'Montant à transférer (net reçu)'}
         keyboardType={keyboardFor('amount')}
         value={amountText}
         onChangeText={setRaw}
         placeholder="Ex : 101 000"
         error={error}
       />
+
+      {mode === 'transfert' && (
+        <Pressable
+          onPress={() => setWithRetraitFees((v) => !v)}
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: withRetraitFees }}
+          className="flex-row items-start gap-2.5 rounded-lg border border-border bg-card p-4"
+        >
+          <View
+            className={`mt-0.5 h-5 w-5 items-center justify-center rounded border ${
+              withRetraitFees ? 'border-primary bg-primary' : 'border-input bg-background'
+            }`}
+          >
+            {withRetraitFees && <Text className="text-xs font-bold leading-4 text-primary-foreground">✓</Text>}
+          </View>
+          <View className="flex-1 gap-1">
+            <Label className="text-foreground">Envoyer avec frais de retrait</Label>
+            <Text className="text-xs text-muted-foreground">
+              Le montant transféré inclut les frais de retrait sur le montant reçu.
+            </Text>
+          </View>
+        </Pressable>
+      )}
 
       {amountText === '' ? (
         <Text className="text-sm text-muted-foreground">
@@ -42,9 +125,9 @@ export default function FeesScreen() {
         result != null && (
           <>
             <Card>
-              <CardTitle>Retrait unique</CardTitle>
+              <CardTitle>{term} unique</CardTitle>
               <Text className="mt-1 text-sm text-muted-foreground">
-                {formatAr(amount)} → frais de {formatAr(result.singleFee)}
+                {formatAr(transferAmount)} → frais de {formatAr(result.singleFee)}
               </Text>
             </Card>
 
@@ -52,14 +135,14 @@ export default function FeesScreen() {
               <CardTitle>Découpage optimal</CardTitle>
               {result.pieces.length === 1 && result.savings === 0 ? (
                 <Text className="mt-1 text-sm text-muted-foreground">
-                  Un seul retrait : c'est déjà le plus économique.
+                  Un seul {term} : c'est déjà le plus économique.
                 </Text>
               ) : (
                 <>
                   {result.pieces.map((piece, index) => (
                     <View key={index} className="mt-1 flex-row items-center justify-between gap-2">
                       <Text className="text-sm text-foreground">
-                        Retrait {index + 1} : {formatAr(piece.amount)}
+                        {term.charAt(0).toUpperCase() + term.slice(1)} {index + 1} : {formatAr(piece.amount)}
                       </Text>
                       <Text className="text-sm text-muted-foreground">{formatAr(piece.fee)} de frais</Text>
                     </View>
