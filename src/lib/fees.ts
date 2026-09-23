@@ -125,6 +125,19 @@ export function feeFor(amount: number, plan: FeePlan = RETRAIT_PLAN): number {
   throw new RangeError(`Montant hors barème: ${amount}`);
 }
 
+/**
+ * Montant réellement transféré pour un montant net reçu par le destinataire.
+ * Si l'option « frais de retrait inclus » est activée, l'expéditeur transfère
+ * net + frais de retrait(net) ; sinon, il transfère exactement net.
+ * Le montant net doit être valide (entier, dans les bornes du barème).
+ */
+export function transferAmountFor(net: number, includeRetraitFees: boolean): number {
+  if (!isValidAmount(net, RETRAIT_PLAN)) {
+    throw new RangeError(`Montant net invalide: ${net}`);
+  }
+  return includeRetraitFees ? net + feeFor(net, RETRAIT_PLAN) : net;
+}
+
 /** Frais interne : hors barème → Infinity (utilisé par l'optimiseur). */
 function rawFee(amount: number, plan: FeePlan): number {
   for (const band of plan.bands) {

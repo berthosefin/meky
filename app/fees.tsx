@@ -5,11 +5,11 @@ import { Card, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  feeFor,
   formatAr,
   isValidAmount,
   optimalSplit,
   RETRAIT_PLAN,
+  transferAmountFor,
   TRANSFERT_PLAN,
 } from '@/lib/fees';
 import { keyboardFor } from '@/lib/keyboard';
@@ -39,10 +39,7 @@ export default function FeesScreen() {
   // Montant transféré : net reçu + frais de retrait(net) si l'option est cochée.
   const transferAmount = useMemo(() => {
     if (amountText === '' || netError != null) return NaN;
-    if (mode === 'transfert' && withRetraitFees) {
-      return amount + feeFor(amount, RETRAIT_PLAN);
-    }
-    return amount;
+    return transferAmountFor(amount, mode === 'transfert' && withRetraitFees);
   }, [amountText, netError, mode, withRetraitFees, amount]);
 
   const exceedsError =

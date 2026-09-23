@@ -4,6 +4,7 @@ import {
   isValidAmount,
   optimalSplit,
   RETRAIT_PLAN,
+  transferAmountFor,
   TRANSFERT_PLAN,
 } from '../fees';
 
@@ -63,6 +64,30 @@ describe('optimalSplit', () => {
     expect(result.totalFee).toBe(4_800);
     expect(result.singleFee).toBe(8_800);
     expect(result.savings).toBe(4_000);
+  });
+
+  it('splits 5 100 into 5 000 + 100 saving 25', () => {
+    const result = optimalSplit(5_100, RETRAIT_PLAN);
+    expect(result.pieces.map((p) => p.amount)).toEqual([5_000, 100]);
+    expect(result.totalFee).toBe(250);
+    expect(result.singleFee).toBe(275);
+    expect(result.savings).toBe(25);
+  });
+
+  it('splits 10 001 into 1 000 + 9 001 saving 175', () => {
+    const result = optimalSplit(10_001, RETRAIT_PLAN);
+    expect(result.pieces.map((p) => p.amount)).toEqual([1_000, 9_001]);
+    expect(result.totalFee).toBe(375);
+    expect(result.singleFee).toBe(550);
+    expect(result.savings).toBe(175);
+  });
+
+  it('splits 250 001 into 1 000 + 249 001 saving 1 200', () => {
+    const result = optimalSplit(250_001, RETRAIT_PLAN);
+    expect(result.pieces.map((p) => p.amount)).toEqual([1_000, 249_001]);
+    expect(result.totalFee).toBe(3_500);
+    expect(result.singleFee).toBe(4_700);
+    expect(result.savings).toBe(1_200);
   });
 
   it('handles the minimum and maximum bounds', () => {
@@ -160,6 +185,64 @@ describe('TRANSFERT_PLAN', () => {
     expect(result.savings).toBe(830);
   });
 
+  it('splits 10 000 into 5 000 + 5 000 (2×70 < 150)', () => {
+    // Cas subtil : en transfert, découper au niveau du palier bat le single
+    // (contrairement au retrait où 10 000 reste unique).
+    const result = optimalSplit(10_000, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([5_000, 5_000]);
+    expect(result.totalFee).toBe(140);
+    expect(result.singleFee).toBe(150);
+    expect(result.savings).toBe(10);
+  });
+
+  it('splits 25 001 into 5 000 + 20 001 saving 180', () => {
+    const result = optimalSplit(25_001, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([5_000, 20_001]);
+    expect(result.totalFee).toBe(320);
+    expect(result.singleFee).toBe(500);
+    expect(result.savings).toBe(180);
+  });
+
+  it('splits 50 001 into 25 000 + 5 000 + 20 001 saving 430', () => {
+    const result = optimalSplit(50_001, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([25_000, 5_000, 20_001]);
+    expect(result.totalFee).toBe(570);
+    expect(result.singleFee).toBe(1_000);
+    expect(result.savings).toBe(430);
+  });
+
+  it('splits 500 001 into 5 000 + 495 001 saving 1 230', () => {
+    const result = optimalSplit(500_001, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([5_000, 495_001]);
+    expect(result.totalFee).toBe(1_970);
+    expect(result.singleFee).toBe(3_200);
+    expect(result.savings).toBe(1_230);
+  });
+
+  it('splits 1 001 000 into 1 000 000 + 1 000 saving 530', () => {
+    const result = optimalSplit(1_001_000, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([1_000_000, 1_000]);
+    expect(result.totalFee).toBe(3_270);
+    expect(result.singleFee).toBe(3_800);
+    expect(result.savings).toBe(530);
+  });
+
+  it('splits 2 000 001 into 5 000 + 1 995 001 saving 1 130', () => {
+    const result = optimalSplit(2_000_001, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([5_000, 1_995_001]);
+    expect(result.totalFee).toBe(3_870);
+    expect(result.singleFee).toBe(5_000);
+    expect(result.savings).toBe(1_130);
+  });
+
+  it('splits 20 000 000 into 18 000 000 + 2 000 000 (ceiling no longer frozen)', () => {
+    const result = optimalSplit(20_000_000, TRF);
+    expect(result.pieces.map((p) => p.amount)).toEqual([18_000_000, 2_000_000]);
+    expect(result.totalFee).toBe(28_300);
+    expect(result.singleFee).toBe(31_300);
+    expect(result.savings).toBe(3_000);
+  });
+
   it('keeps 1 010 and 1 001 as single transfers (no invalid piece)', () => {
     expect(optimalSplit(1_010, TRF).pieces.map((p) => p.amount)).toEqual([1_010]);
     expect(optimalSplit(1_001, TRF).pieces.map((p) => p.amount)).toEqual([1_001]);
@@ -168,6 +251,35 @@ describe('TRANSFERT_PLAN', () => {
   it('throws for invalid amounts', () => {
     expect(() => optimalSplit(99, TRF)).toThrow(RangeError);
     expect(() => optimalSplit(20_000_001, TRF)).toThrow(RangeError);
+  });
+});
+
+describe('transferAmountFor', () => {
+  it('returns the net amount when retrait fees are not included', () => {
+    expect(transferAmountFor(10_000, false)).toBe(10_000);
+    expect(transferAmountFor(100_001, false)).toBe(100_001);
+    expect(transferAmountFor(20_000_000, false)).toBe(20_000_000);
+  });
+
+  it('adds the retrait fee on the net amount when included', () => {
+    expect(transferAmountFor(1_000, true)).toBe(1_100); // 1 000 + 100
+    expect(transferAmountFor(5_001, true)).toBe(5_276); // 5 001 + 275
+    expect(transferAmountFor(100_001, true)).toBe(103_401); // 100 001 + 3 400
+    expect(transferAmountFor(250_001, true)).toBe(254_701); // 250 001 + 4 700
+  });
+
+  it('reaches the 20 000 000 ceiling exactly from 19 900 000 net', () => {
+    expect(transferAmountFor(19_900_000, true)).toBe(20_000_000);
+  });
+
+  it('exceeds the ceiling from a 20 000 000 net — UI must show an explicit error', () => {
+    expect(transferAmountFor(20_000_000, true)).toBeGreaterThan(TRANSFERT_PLAN.maxAmount);
+  });
+
+  it('throws for invalid net amounts', () => {
+    expect(() => transferAmountFor(99, true)).toThrow(RangeError);
+    expect(() => transferAmountFor(20_000_001, false)).toThrow(RangeError);
+    expect(() => transferAmountFor(100.5, true)).toThrow(RangeError);
   });
 });
 
